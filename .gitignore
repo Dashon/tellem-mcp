@@ -5,3 +5,6 @@ dist/
 .env
 .env.*
 npm-debug.log*
+
+# OpenMemory - IDE/Assistant specific rules
+.cursor/rules/openmemory.mdc

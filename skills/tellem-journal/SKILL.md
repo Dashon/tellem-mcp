@@ -1,0 +1,27 @@
+---
+name: tellem-journal
+description: Use Tellem as the source-of-truth journal and MCP memory for coding sessions, decisions, and daily notes.
+---
+
+# Tellem Journal
+
+Use the `tellem` MCP server as the source of truth for journal memory. Repo Markdown files, scratch specs, and cache files are downstream working material unless the user explicitly says otherwise.
+
+At session start:
+
+1. Call `list_notes` with a small limit to inspect recent journal notes.
+2. Find today's note by `entryDate`. If none exists and you need to write memory, call `create_journal_note` with today's date.
+3. Read the active memory target with `get_journal_note` before appending.
+
+When the user asks you to remember, summarize, or preserve session context:
+
+- Use `append_journal_note` for session summaries, decisions, open questions, and follow-up context.
+- Use `update_journal_note` only when editing a known note intentionally.
+- Keep entries concise and dated. Prefer Markdown bullets for decisions and follow-ups.
+- Do not create or commit local source-of-truth Markdown files as a substitute for Tellem.
+
+For questions about prior work or personal context:
+
+- Use `list_notes` for counts, recency, and choosing notes.
+- Use `search_notes` or `ask_notes` for recall.
+- Use `get_journal_note` for the exact authored note body.
