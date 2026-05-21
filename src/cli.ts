@@ -23,7 +23,7 @@ type BridgeOptions = {
   fetchImpl?: FetchLike;
 };
 
-const defaultAppUrl = "https://tellem.app";
+const defaultAppUrl = "https://tellem-ten.vercel.app";
 
 export function endpointForAppUrl(appUrl = defaultAppUrl) {
   return `${appUrl.replace(/\/+$/, "")}/api/mcp`;

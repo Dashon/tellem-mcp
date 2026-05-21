@@ -16,21 +16,21 @@ Create a scoped MCP token from your Tellem Account page, then add this to your M
       "args": ["-y", "tellem-mcp@latest"],
       "env": {
         "TELLEM_TOKEN": "tellem_mcp_...",
-        "TELLEM_APP_URL": "https://tellem.app"
+        "TELLEM_APP_URL": "https://tellem-ten.vercel.app"
       }
     }
   }
 }
 ```
 
-`TELLEM_APP_URL` is optional and defaults to `https://tellem.app`.
+`TELLEM_APP_URL` is optional and defaults to `https://tellem-ten.vercel.app`.
 
 ## Configuration
 
 | Environment variable | Required | Description |
 | --- | --- | --- |
 | `TELLEM_TOKEN` | Yes | Scoped MCP token created in Tellem Account settings. |
-| `TELLEM_APP_URL` | No | Tellem app origin. Defaults to `https://tellem.app`. |
+| `TELLEM_APP_URL` | No | Tellem app origin. Defaults to `https://tellem-ten.vercel.app`. |
 
 ## Development
 
