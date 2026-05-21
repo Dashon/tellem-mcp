@@ -6,8 +6,9 @@ The bridge runs locally as a subprocess, reads newline-delimited MCP JSON-RPC fr
 
 ## Quick Start: Claude Code
 
-Create a scoped MCP token from your Tellem Account page. For journal memory writes,
-include `notes:read`, `notes:create`, and `notes:write`.
+Create a scoped MCP token from your Tellem Account page. For the normal
+shared notebook flow, include `notes:read`, `knowledge:read`,
+`knowledge:write`, `notes:create`, and `notes:write`.
 
 Then install the Claude Code skill and MCP server:
 
@@ -29,7 +30,7 @@ client config:
   "mcpServers": {
     "tellem": {
       "command": "npx",
-      "args": ["-y", "tellem-mcp@0.1.3"],
+      "args": ["-y", "tellem-mcp@0.1.4"],
       "env": {
         "TELLEM_TOKEN": "tellem_mcp_...",
         "TELLEM_APP_URL": "https://tellem-ten.vercel.app"
@@ -48,7 +49,7 @@ client config:
 | `TELLEM_TOKEN` | Yes | Scoped MCP token created in Tellem Account settings. |
 | `TELLEM_APP_URL` | No | Tellem app origin. Defaults to `https://tellem-ten.vercel.app`. |
 
-## Journal Memory Tools
+## Journal And Source Tools
 
 Use Tellem as the authored workspace and source of truth. The bridge exposes
 the server tools, including:
@@ -57,9 +58,22 @@ the server tools, including:
 - `get_journal_note` for exact Markdown journal reads.
 - `create_journal_note`, `append_journal_note`, and `update_journal_note` for
   agent memory writes when the token has write scopes.
+- `list_sources`, `search_knowledge`, and `get_source` for saved links, files,
+  images, and text sources.
+- `create_source_link`, `create_source_text`, `upload_source_file`, and
+  `attach_source_to_note` for preserving supporting material when the token has
+  `knowledge:write`.
+
+When referencing saved sources inside a journal note, use stable app-owned
+Markdown links such as `[Source title](/sources/{sourceId})`. For images, use
+the private preview route `![Source title](/api/knowledge/sources/{sourceId}/preview)`.
+Do not put raw storage URLs or local file paths in journal bodies.
+
+`upload_source_file` accepts small base64 JSON payloads only. It does not read
+local file paths from the machine running the MCP client.
 
 Local repo files can still be generated working copies, but Tellem should hold
-the durable journal state.
+the durable journal and source state.
 
 ## Development
 

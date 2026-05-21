@@ -10,6 +10,10 @@ import { installClaudeCodeSkill } from "../dist/install.js";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 
+function npmAvailable() {
+  return spawnSync("npm", ["--version"], { stdio: "ignore" }).status === 0;
+}
+
 function captureStream() {
   let text = "";
   return {
@@ -41,6 +45,8 @@ test("installer creates the Claude Code skill folder and prints fallback config"
 
     assert.equal(result.configuredMcp, false);
     assert.match(skill, /source of truth/i);
+    assert.match(skill, /create_source_link/);
+    assert.match(skill, /attach_source_to_note/);
     assert.match(output.text, /mcpServers/);
     assert.match(output.text, /tellem-mcp@latest/);
   } finally {
@@ -48,7 +54,9 @@ test("installer creates the Claude Code skill folder and prints fallback config"
   }
 });
 
-test("npm pack dry run includes dist, skills, readme, license, and metadata", () => {
+test("npm pack dry run includes dist, skills, readme, license, and metadata", {
+  skip: !npmAvailable(),
+}, () => {
   const result = spawnSync("npm", ["pack", "--dry-run", "--json"], {
     cwd: repoRoot,
     encoding: "utf8",

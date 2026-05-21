@@ -20,8 +20,19 @@ When the user asks you to remember, summarize, or preserve session context:
 - Keep entries concise and dated. Prefer Markdown bullets for decisions and follow-ups.
 - Do not create or commit local source-of-truth Markdown files as a substitute for Tellem.
 
+When the user asks you to preserve supporting material:
+
+- Use `create_source_link` for public URLs that should be searchable later.
+- Use `create_source_text` for copied text, notes from another tool, or short research snippets.
+- Use `upload_source_file` only for small base64 file/image payloads already provided to you; do not read local file paths through MCP.
+- Pass `noteId` when a source belongs with a specific journal note, or call `attach_source_to_note` after creating/finding the source.
+- Reference saved sources in Markdown with stable app-owned links: `[Source title](/sources/{sourceId})`.
+- Reference saved images with the private preview route: `![Source title](/api/knowledge/sources/{sourceId}/preview)`.
+- Never store raw storage URLs or local machine file paths in Tellem notes.
+
 For questions about prior work or personal context:
 
 - Use `list_notes` for counts, recency, and choosing notes.
 - Use `search_notes` or `ask_notes` for recall.
 - Use `get_journal_note` for the exact authored note body.
+- Use `list_sources`, `search_knowledge`, and `get_source` for saved links, files, images, and source text.
