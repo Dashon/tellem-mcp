@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-const cliPath = fileURLToPath(new URL("../dist/cli.js", import.meta.url));
+const cliPath = fileURLToPath(new URL("../dist/bin.js", import.meta.url));
 
 function runCli({ env = {}, input = "" } = {}) {
   const childEnv = { ...process.env, ...env };

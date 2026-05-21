@@ -1,10 +1,10 @@
 {
   "name": "tellem-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Stdio bridge for connecting MCP clients to Tellem.",
   "type": "module",
   "bin": {
-    "tellem-mcp": "dist/cli.js"
+    "tellem-mcp": "dist/bin.js"
   },
   "main": "dist/cli.js",
   "files": [
@@ -14,8 +14,8 @@
   ],
   "scripts": {
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "build": "npm run clean && tsc && chmod +x dist/cli.js",
-    "start": "node dist/cli.js",
+    "build": "npm run clean && tsc && chmod +x dist/bin.js",
+    "start": "node dist/bin.js",
     "test": "npm run build && node --test test/*.test.mjs",
     "pack:dry-run": "npm pack --dry-run",
     "prepublishOnly": "npm test && npm run pack:dry-run"

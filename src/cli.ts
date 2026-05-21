@@ -1,7 +1,4 @@
-#!/usr/bin/env node
-
 import { createInterface } from "node:readline";
-import { pathToFileURL } from "node:url";
 import type { Readable, Writable } from "node:stream";
 
 type JsonRpcPayload = {
@@ -235,7 +232,7 @@ export function runBridge({
   return bridge;
 }
 
-function main() {
+export function main() {
   const token = process.env.TELLEM_TOKEN;
   if (!token) {
     process.stderr.write("Error: TELLEM_TOKEN environment variable is required.\n");
@@ -246,8 +243,4 @@ function main() {
     token,
     appUrl: process.env.TELLEM_APP_URL,
   });
-}
-
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  main();
 }
