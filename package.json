@@ -1,0 +1,49 @@
+{
+  "name": "tellem-mcp",
+  "version": "0.1.0",
+  "description": "Stdio bridge for connecting MCP clients to Tellem.",
+  "type": "module",
+  "bin": {
+    "tellem-mcp": "dist/cli.js"
+  },
+  "main": "dist/cli.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && tsc",
+    "start": "node dist/cli.js",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "pack:dry-run": "npm pack --dry-run",
+    "prepublishOnly": "npm test && npm run pack:dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dashon/tellem-mcp.git"
+  },
+  "keywords": [
+    "tellem",
+    "mcp",
+    "model-context-protocol",
+    "stdio"
+  ],
+  "author": "Dashon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dashon/tellem-mcp/issues"
+  },
+  "homepage": "https://github.com/Dashon/tellem-mcp#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "typescript": "^5.9.3"
+  }
+}
