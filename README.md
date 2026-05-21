@@ -30,7 +30,7 @@ client config:
   "mcpServers": {
     "tellem": {
       "command": "npx",
-      "args": ["-y", "tellem-mcp@0.1.4"],
+      "args": ["-y", "tellem-mcp@0.1.5"],
       "env": {
         "TELLEM_TOKEN": "tellem_mcp_...",
         "TELLEM_APP_URL": "https://tellem-ten.vercel.app"
@@ -58,6 +58,8 @@ the server tools, including:
 - `get_journal_note` for exact Markdown journal reads.
 - `create_journal_note`, `append_journal_note`, and `update_journal_note` for
   agent memory writes when the token has write scopes.
+- `list_folders`, `create_folder`, `update_folder`, `delete_folder`, and
+  `move_note_to_folder` for organizing notes into Tellem Collections.
 - `list_sources`, `search_knowledge`, and `get_source` for saved links, files,
   images, and text sources.
 - `create_source_link`, `create_source_text`, `upload_source_file`, and
@@ -71,6 +73,11 @@ Do not put raw storage URLs or local file paths in journal bodies.
 
 `upload_source_file` accepts small base64 JSON payloads only. It does not read
 local file paths from the machine running the MCP client.
+
+Collections are backed by one folder per note. Pass `folderId` to
+`list_notes`, `search_notes`, `create_journal_note`, or `update_journal_note`
+when the note should be scoped or filed under a collection. Pass `folderId:
+null` to make a note unfiled.
 
 Local repo files can still be generated working copies, but Tellem should hold
 the durable journal and source state.

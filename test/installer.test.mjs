@@ -47,6 +47,8 @@ test("installer creates the Claude Code skill folder and prints fallback config"
     assert.match(skill, /source of truth/i);
     assert.match(skill, /create_source_link/);
     assert.match(skill, /attach_source_to_note/);
+    assert.match(skill, /list_folders/);
+    assert.match(skill, /move_note_to_folder/);
     assert.match(output.text, /mcpServers/);
     assert.match(output.text, /tellem-mcp@latest/);
   } finally {

@@ -17,6 +17,9 @@ When the user asks you to remember, summarize, or preserve session context:
 
 - Use `append_journal_note` for session summaries, decisions, open questions, and follow-up context.
 - Use `update_journal_note` only when editing a known note intentionally.
+- Use `list_folders` to find Tellem Collections when organization matters.
+- Use `create_folder`, `update_folder`, `delete_folder`, and `move_note_to_folder` when the user asks to organize journal notes into collections.
+- Pass `folderId` to `create_journal_note`, `update_journal_note`, `list_notes`, or `search_notes` when a note belongs in a known collection.
 - Keep entries concise and dated. Prefer Markdown bullets for decisions and follow-ups.
 - Do not create or commit local source-of-truth Markdown files as a substitute for Tellem.
 
@@ -33,6 +36,7 @@ When the user asks you to preserve supporting material:
 For questions about prior work or personal context:
 
 - Use `list_notes` for counts, recency, and choosing notes.
+- Use `list_folders` to understand collection structure before filing or scoped retrieval.
 - Use `search_notes` or `ask_notes` for recall.
 - Use `get_journal_note` for the exact authored note body.
 - Use `list_sources`, `search_knowledge`, and `get_source` for saved links, files, images, and source text.
