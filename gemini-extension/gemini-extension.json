@@ -1,7 +1,7 @@
 {
   "name": "tellem-journal",
-  "version": "0.1.0",
-  "description": "Connect Gemini CLI to Tellem journal notes, sources, and collections through remote MCP.",
+  "version": "0.1.7",
+  "description": "Connect Gemini CLI to Tellem's date-first journal, saved sources, memory graph, and agent context through remote MCP.",
   "mcpServers": {
     "tellem": {
       "httpUrl": "https://journalmcp.com/mcp",

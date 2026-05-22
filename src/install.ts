@@ -31,6 +31,21 @@ function fallbackConfig({ token, appUrl }: { token: string; appUrl: string }) {
   };
 }
 
+function codexConfigToml({ token, appUrl }: { token: string; appUrl: string }) {
+  const args = ["exec", "--yes", `--package=${serverPackage}`, "--", "tellem-mcp"];
+  return [
+    "[mcp_servers.tellem]",
+    'command = "npm"',
+    `args = ${JSON.stringify(args)}`,
+    "enabled = true",
+    "",
+    "[mcp_servers.tellem.env]",
+    `TELLEM_TOKEN = ${JSON.stringify(token)}`,
+    `TELLEM_APP_URL = ${JSON.stringify(appUrl)}`,
+    "",
+  ].join("\n");
+}
+
 function claudeCliAvailable() {
   const result = spawnSync("claude", ["--version"], { stdio: "ignore" });
   return result.status === 0;
@@ -98,12 +113,35 @@ export function installClaudeCodeSkill({
   return { installedSkillDir: targetDir, configuredMcp: false };
 }
 
+export function installCodexSkill({
+  token,
+  appUrl = defaultAppUrl,
+  codexHomeDir = process.env.CODEX_HOME || join(homedir(), ".codex"),
+  io = {},
+}: {
+  token: string;
+  appUrl?: string;
+  codexHomeDir?: string;
+  io?: InstallIo;
+}) {
+  const stdout = io.stdout ?? process.stdout;
+  const sourceDir = join(packageRoot(), "skills", "tellem-journal");
+  const targetDir = join(codexHomeDir, "skills", "tellem-journal");
+  const configPath = join(codexHomeDir, "config.toml");
+  mkdirSync(dirname(targetDir), { recursive: true });
+  cpSync(sourceDir, targetDir, { recursive: true });
+  stdout.write(`Installed Tellem Journal skill to ${targetDir}\n`);
+  stdout.write(`Add this to ${configPath}, then restart Codex:\n`);
+  stdout.write(`${codexConfigToml({ token, appUrl })}\n`);
+  return { installedSkillDir: targetDir, configPath };
+}
+
 export function installMain(argv = process.argv.slice(2), io: InstallIo = {}) {
   const stdout = io.stdout ?? process.stdout;
   const stderr = io.stderr ?? process.stderr;
   const target = argv[0];
-  if (target !== "claude-code") {
-    stderr.write("Usage: tellem-mcp install claude-code\n");
+  if (target !== "claude-code" && target !== "codex") {
+    stderr.write("Usage: tellem-mcp install <claude-code|codex>\n");
     process.exitCode = 1;
     return;
   }
@@ -116,5 +154,10 @@ export function installMain(argv = process.argv.slice(2), io: InstallIo = {}) {
   }
 
   const appUrl = process.env.TELLEM_APP_URL || defaultAppUrl;
-  installClaudeCodeSkill({ token, appUrl, io: { stdout, stderr } });
+  if (target === "claude-code") {
+    installClaudeCodeSkill({ token, appUrl, io: { stdout, stderr } });
+    return;
+  }
+
+  installCodexSkill({ token, appUrl, io: { stdout, stderr } });
 }
