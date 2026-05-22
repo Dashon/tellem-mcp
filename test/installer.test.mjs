@@ -50,7 +50,8 @@ test("installer creates the Claude Code skill folder and prints fallback config"
     assert.match(skill, /list_folders/);
     assert.match(skill, /move_note_to_folder/);
     assert.match(output.text, /mcpServers/);
-    assert.match(output.text, /tellem-mcp@latest/);
+    assert.match(output.text, /"command": "npm"/);
+    assert.match(output.text, /--package=tellem-mcp@latest/);
   } finally {
     rmSync(homeDir, { recursive: true, force: true });
   }
@@ -69,6 +70,8 @@ test("npm pack dry run includes dist, skills, readme, license, and metadata", {
   assert.ok(files.includes("dist/bin.js"));
   assert.ok(files.includes("dist/install-bin.js"));
   assert.ok(files.includes("skills/tellem-journal/SKILL.md"));
+  assert.ok(files.includes("gemini-extension/gemini-extension.json"));
+  assert.ok(files.includes("gemini-extension/GEMINI.md"));
   assert.ok(files.includes("README.md"));
   assert.ok(files.includes("LICENSE"));
   assert.ok(files.includes("package.json"));

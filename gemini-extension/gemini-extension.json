@@ -1,0 +1,12 @@
+{
+  "name": "tellem-journal",
+  "version": "0.1.0",
+  "description": "Connect Gemini CLI to Tellem journal notes, sources, and collections through remote MCP.",
+  "mcpServers": {
+    "tellem": {
+      "httpUrl": "https://journalmcp.com/mcp",
+      "timeout": 600000
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

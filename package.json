@@ -1,6 +1,6 @@
 {
   "name": "tellem-mcp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Stdio bridge for connecting MCP clients to Tellem.",
   "type": "module",
   "bin": {
@@ -11,6 +11,7 @@
   "files": [
     "dist",
     "skills",
+    "gemini-extension",
     "README.md",
     "LICENSE"
   ],

@@ -5,7 +5,7 @@ description: Use Tellem as the source-of-truth journal and MCP memory for coding
 
 # Tellem Journal
 
-Use the `tellem` MCP server as the source of truth for journal memory. Repo Markdown files, scratch specs, and cache files are downstream working material unless the user explicitly says otherwise.
+Use the `tellem` MCP server as the source of truth for journal memory. Repo Markdown files, scratch specs, and cache files are downstream working material unless the user explicitly says otherwise. Local clients usually connect through the stdio bridge; cloud clients can use Tellem's remote OAuth MCP connector at `https://journalmcp.com/mcp`.
 
 At session start:
 
@@ -37,6 +37,7 @@ For questions about prior work or personal context:
 
 - Use `list_notes` for counts, recency, and choosing notes.
 - Use `list_folders` to understand collection structure before filing or scoped retrieval.
+- Use `search` and `fetch` when the host client prefers generic connector-style read tools.
 - Use `search_notes` or `ask_notes` for recall.
 - Use `get_journal_note` for the exact authored note body.
 - Use `list_sources`, `search_knowledge`, and `get_source` for saved links, files, images, and source text.

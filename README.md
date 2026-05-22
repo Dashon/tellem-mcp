@@ -1,6 +1,6 @@
 # Tellem MCP
 
-Stdio bridge for connecting MCP clients such as Claude Desktop, Claude Code, Cursor, and other local agents to Tellem.
+Stdio bridge for connecting MCP clients such as Claude Desktop, Claude Code, Cursor, and other local agents to Tellem. Tellem also exposes a remote OAuth MCP connector for cloud clients at `https://journalmcp.com/mcp`.
 
 The bridge runs locally as a subprocess, reads newline-delimited MCP JSON-RPC from stdin, forwards each message to Tellem's Streamable HTTP endpoint, and writes only MCP JSON-RPC responses to stdout. Logs and diagnostics go to stderr.
 
@@ -13,7 +13,7 @@ shared notebook flow, include `notes:read`, `knowledge:read`,
 Then install the Claude Code skill and MCP server:
 
 ```bash
-TELLEM_TOKEN=tellem_mcp_... TELLEM_APP_URL=https://tellem-ten.vercel.app npx -y tellem-mcp@latest install claude-code
+TELLEM_TOKEN=tellem_mcp_... TELLEM_APP_URL=https://tellem-ten.vercel.app npm exec --yes --package=tellem-mcp@latest -- tellem-mcp install claude-code
 ```
 
 The installer writes `~/.claude/skills/tellem-journal/SKILL.md`. When the
@@ -29,8 +29,8 @@ client config:
 {
   "mcpServers": {
     "tellem": {
-      "command": "npx",
-      "args": ["-y", "tellem-mcp@0.1.5"],
+      "command": "npm",
+      "args": ["exec", "--yes", "--package=tellem-mcp@0.1.6", "--", "tellem-mcp"],
       "env": {
         "TELLEM_TOKEN": "tellem_mcp_...",
         "TELLEM_APP_URL": "https://tellem-ten.vercel.app"
@@ -41,6 +41,25 @@ client config:
 ```
 
 `TELLEM_APP_URL` is optional and defaults to `https://tellem-ten.vercel.app`.
+
+## Remote OAuth Connector
+
+Use the remote connector when a cloud client supports HTTPS MCP and OAuth:
+
+```text
+https://journalmcp.com/mcp
+```
+
+The remote endpoint supports Streamable HTTP as the primary transport and exposes
+OAuth discovery metadata so clients can dynamically register, open the browser
+authorization flow, and store refresh tokens. Personal `TELLEM_TOKEN` values are
+still the right fit for stdio clients and local developer tools.
+
+Platform notes:
+
+- Claude.ai: add a custom connector with `https://journalmcp.com/mcp`.
+- ChatGPT: use Developer Mode custom MCP connectors in supported workspaces.
+- Gemini CLI: use `gemini mcp add --transport http tellem https://journalmcp.com/mcp` or install the extension in `gemini-extension/`.
 
 ## Configuration
 
@@ -55,6 +74,7 @@ Use Tellem as the authored workspace and source of truth. The bridge exposes
 the server tools, including:
 
 - `list_notes`, `search_notes`, and `ask_notes` for recall.
+- `search` and `fetch` for connector-friendly read retrieval.
 - `get_journal_note` for exact Markdown journal reads.
 - `create_journal_note`, `append_journal_note`, and `update_journal_note` for
   agent memory writes when the token has write scopes.
@@ -112,6 +132,7 @@ To test a local checkout from an MCP client, use:
 - The token is never added to URLs.
 - The bridge emits only JSON-RPC messages on stdout.
 - The bridge accepts credentials through environment variables, as expected for stdio MCP servers.
+- Remote OAuth connector access can be revoked from Tellem without rotating local stdio tokens.
 
 ## License
 

@@ -20,8 +20,8 @@ function fallbackConfig({ token, appUrl }: { token: string; appUrl: string }) {
   return {
     mcpServers: {
       tellem: {
-        command: "npx",
-        args: ["-y", serverPackage],
+        command: "npm",
+        args: ["exec", "--yes", `--package=${serverPackage}`, "--", "tellem-mcp"],
         env: {
           TELLEM_TOKEN: token,
           TELLEM_APP_URL: appUrl,
@@ -52,9 +52,12 @@ function configureClaudeMcp({ token, appUrl }: { token: string; appUrl: string }
       "user",
       "tellem",
       "--",
-      "npx",
-      "-y",
-      serverPackage,
+      "npm",
+      "exec",
+      "--yes",
+      `--package=${serverPackage}`,
+      "--",
+      "tellem-mcp",
     ],
     { stdio: "inherit" },
   );
